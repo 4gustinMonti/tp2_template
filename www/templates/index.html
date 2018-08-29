@@ -21,66 +21,48 @@
     <title>Estación Meteorológica</title>
 </head>
 <body>
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow" style="position: fixed;">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Estación Meteorológica</a>
-</nav>
-<div class="container-fluid" style="margin-top: 47px;">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                <a class="nav-link active" href="#">
-                    <span style="margin-right: 5px;"><i class="fas fa-cogs"></i></span>                   
-                    Configurar <span class="sr-only">(current)</span>
-                </a>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <button type="button" id="sidebarCollapse" class="btn btn-info" style="float: right;">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="#homeSubmenu" aria-expanded="false">
+                        <i class="fas fa-home"></i>
+                        Home
+                    </a>
+                    <a href="#">
+                        <span style="margin-right: 5px;">
+                            <i class="fas fa-cogs"></i>
+                        </span>Configurar <span class="sr-only">(current)</span>
+                    </a>
                 </li>
             </ul>
-            </div>
         </nav>
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Panel de configuración</h1>
-    </main>
+
+        <!-- Page Content  -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Panel de configuración</h1>
+            </div>
+        </main>
     </div>
-</div>
-<!--<nav class="navbar flex-column navbar-expand-sm navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Expand at sm</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarsExample03">
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-        <div class="dropdown-menu" aria-labelledby="dropdown03">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-        </li>
-    </ul>
-    <form class="form-inline my-2 my-md-0">
-        <input class="form-control" type="text" placeholder="Search">
-    </form>
-    </div>
-</nav>-->
-
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
 </body>
 </html>
