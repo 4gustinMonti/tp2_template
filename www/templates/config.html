@@ -32,11 +32,11 @@
 
             <ul class="list-unstyled components">
                 <li class="active">
-                    <a href="/home" aria-expanded="false">
+                    <a href="/?frec={{frec}}" aria-expanded="false">
                         <i class="fas fa-home"></i>
                         <span class="home-button">Home</span>
                     </a>
-                    <a href="/config">
+                    <a href="/config?frec={{frec}}">
                         <span style="margin-right: 5px;">
                             <i class="fas fa-cogs"></i>
                             <span class="config-button">Config</span>
@@ -51,6 +51,16 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Configurar la estación</h1>
             </div>
+            <div> 
+                <h5><label class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">Frecuencia de muestreo actual:  {{frec}}</label></h5>
+            </div>
+            <form class="form" action="/config" method="GET">            
+                <div class="row"> 
+                    <h5><label class="col">Ingrese la frecuencia deseada:</label></h5>
+                    <input type="text" name="frec" class="form-control col" id="frec" placeholder="valores desde 1">
+                    <button type="submit" class="btn btn-primary col-2" style="margin-left:9px">Guardar</button>
+                </div>
+            </form>
         </main>
     </div>
     <!-- Optional JavaScript -->
