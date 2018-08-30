@@ -149,7 +149,7 @@ ul ul a {
 }
 
 .collapse-button {
-    margin-top: 25px;
+    margin-top: 10px;
     float: right;
     color: #e9ecefe8;
     background-color: #212529 !important;
@@ -178,7 +178,6 @@ ul ul a {
 
 #content {
     width: 100%;
-    padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
 }
