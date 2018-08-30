@@ -25,30 +25,31 @@
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <button type="button" id="sidebarCollapse" class="btn btn-info" style="float: right;">
+                <button type="button" id="sidebarCollapse" class="btn collapse-button">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
 
             <ul class="list-unstyled components">
                 <li class="active">
-                    <a href="#homeSubmenu" aria-expanded="false">
+                    <a href="#home" aria-expanded="false">
                         <i class="fas fa-home"></i>
-                        Home
+                        <span class="home-button">Home</span>
                     </a>
-                    <a href="#">
+                    <a href="#config">
                         <span style="margin-right: 5px;">
                             <i class="fas fa-cogs"></i>
-                        </span>Configurar <span class="sr-only">(current)</span>
+                            <span class="config-button">Config</span>
+                        </span>
                     </a>
                 </li>
             </ul>
         </nav>
 
         <!-- Page Content  -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="content">
+        <main role="main" class="col-md-9 col-lg-10 px-4" id="content">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Panel de configuración</h1>
+                <h1 class="h2">Muestras de la estación</h1>
             </div>
         </main>
     </div>
