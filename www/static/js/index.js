@@ -1,6 +1,9 @@
 $(document).ready( () => {
     console.log("Doc ready!");
     start_sampling();
+    $('#sidebarCollapse').on('click', () => {
+        $('#sidebar').toggleClass('active');
+    });
 });
 
 

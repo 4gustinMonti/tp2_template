@@ -14,3 +14,8 @@ class Samples(Base):
     pressure=Column('pressure', Integer)
     windspeed=Column('windspeed', Integer)
 
+class Frequency(Base):
+    __tablename__ = 'frequency'
+    id=Column(Integer, primary_key=True)
+    last_freq=Column('last_freq', Integer)
+
