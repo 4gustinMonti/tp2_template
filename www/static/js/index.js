@@ -14,7 +14,9 @@ function start_sampling() {
 }
 
 function get_samples() {
-    $.get("/", (data) => {
-        console.log("samples", data);
-    });
+    $.get('/samples', function(data){ 
+        console.log(data);})
+        .fail(function() {
+            alert('upa, algo salio mal');
+        });
 }

@@ -4,6 +4,7 @@ from flask import render_template
 from flask import request
 from flask import jsonify
 from database import Database
+import os
 
 app = Flask(__name__)
 db = Database()
@@ -25,9 +26,13 @@ def escribo_config():
 
 @app.route('/', methods = ['GET'])
 def start_sampling():
-    data = db.start_sampling()
+    data = db.get_samples()
     return render_template('index.html',samples=data)
 
+@app.route('/samples', methods = ['GET'])
+def get_samples():
+    data = db.get_samples()
+    return jsonify(data)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8888)

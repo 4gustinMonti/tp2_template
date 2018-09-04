@@ -13,7 +13,7 @@ class Database(object):
     db_user = os.getenv("DB_USER") if os.getenv("DB_USER") != None else "example"
     db_pass = os.getenv("DB_PASS") if os.getenv("DB_PASS") != None else "example"
     db_host = os.getenv("DB_HOST") if os.getenv("DB_HOST") != None else "db"
-    db_name = os.getenv("DB_NAME") if os.getenv("DB_NAME") != None else "samples"
+    db_name = os.getenv("DB_NAME") if os.getenv("DB_NAME") != None else "tp2"
     db_port = os.getenv("DB_PORT") if os.getenv("DB_PORT") != None else "3306"
     Base = declarative_base()
     
@@ -40,17 +40,17 @@ class Database(object):
         """
         session = self.get_session()
         ten_samples = session.query(Samples).limit(10)
-        if len(ten_samples) < 10:
+        #if len(ten_samples) < 10:
             #primera vez que levanta la DB, simulo que ya estaba muestreando, genero 10 muestras de cada sensor y vuelvo a consultar
-            for x in range(10):
-                temperatura = randint (0,50)
-                humedad = randint (0,100) # porcentaje
-                h_pascales = randint(0,200) # hPa
-                viento = randint (0,200) # km/h
-                samples = Samples(temperature=temperatura, humidity=humedad, pressure=h_pascales, windspeed=viento)
-                session.add(samples)
-                session.commit()
-            ten_samples = session.query(Samples).limit(10)
+        for x in range(10):
+            temperatura = randint (0,50)
+            humedad = randint (0,100) # porcentaje
+            h_pascales = randint(0,200) # hPa
+            viento = randint (0,200) # km/h
+            samples = Samples(temperature=temperatura, humidity=humedad, pressure=h_pascales, windspeed=viento)
+            session.add(samples)
+            session.commit()
+        ten_samples = session.query(Samples).limit(10)
         session.close()
 
     def get_samples(self):
@@ -60,19 +60,19 @@ class Database(object):
             temp, hum, pres , viento objects with 'actual' and 'promedio' attributes
         """
         session = self.get_session()
-        temp : {
+        temp = {
             "actual": 0,
             "promedio": 0.0,
             }
-        hum : {
+        hum = {
             "actual": 0,
             "promedio": 0.0,
             }
-        pres : {
+        pres = {
             "actual": 0,
             "promedio": 0.0,
             }
-        viento : {
+        viento = {
             "actual": 0,
             "promedio": 0.0,
             }
@@ -93,5 +93,9 @@ class Database(object):
         hum["promedio"] /= 10
         pres["promedio"] /= 10
         viento["promedio"] /= 10
+        print (temp)
+        print (hum)
+        print (pres)
+        print (viento)
         session.close()
-        return temp.serialize(),hum.serialize(), pres.serialize(), viento.serialize()
+        return (temp,hum, pres, viento)
