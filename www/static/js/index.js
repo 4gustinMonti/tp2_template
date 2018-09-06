@@ -18,8 +18,6 @@ $(document).ready( () => {
             freq = 2
         $('#side-home').attr('href', '/home?frec='+freq);
     });
-    $("#guardar-frec").on("click", toggleAlert);
-    $('#bsalert').on('close.bs.alert', toggleAlert)
     
 })
 
@@ -59,10 +57,7 @@ function checkValue(val) {
     $('#guardar-frec').prop('disabled', false);
 }
 
-function toggleAlert(){
-    $('#bsalert').toggleClass('in out'); 
-    return false; // Keep close.bs.alert event from removing from DOM
-}
+
 
 
 
