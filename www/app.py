@@ -14,13 +14,15 @@ pro = Process()
 
 @app.route('/config', methods = ['GET'])
 def leo_config():
-    return render_template('config.html',freq = f)
+    frecuencia = request.args["frec"]
+    return render_template('config.html', freq=frecuencia)
     
 @app.route('/config', methods = [ 'POST'])
 def escribo_config():
-    data = request.form
-    flash(data, category = 'message')
-    return render_template('config.html',freq = data.freq)
+    frecuencia = request.form["frec"]  # access the data inside 
+    
+    flash(frecuencia, category = 'message')
+    return render_template('config.html', freq=frecuencia)
 
 @app.route('/', methods = ['GET'])
 def start_sampling():
@@ -29,6 +31,15 @@ def start_sampling():
         pro.start_process()
     return render_template('index.html')
 
+@app.route('/home', methods = ['GET'])
+def start_sampling_query():
+    # If there is a process running, return to index()
+    if not pro.is_running():
+        pro.start_process()
+    frecuencia = request.args["frec"]
+    if frecuencia is None:
+        frecuencia = 2
+    return render_template('index.html', freq=frecuencia)
 @app.route('/samples', methods = ['GET'])
 def get_samples():
     #traigo las 10 ultimas muestras de cada sensor

@@ -32,11 +32,11 @@
 
             <ul class="list-unstyled components">
                 <li class="active">
-                    <a href="/" aria-expanded="false">
+                    <a href="/home" aria-expanded="false" id="side-home">
                         <i class="fas fa-home"></i>
                         <span class="home-button">Home</span>
                     </a>
-                    <a href="/config">
+                    <a href="/config" id="side-config">
                         <span style="margin-right: 5px;">
                             <i class="fas fa-cogs"></i>
                             <span class="config-button">Config</span>
@@ -51,23 +51,22 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Configurar la estación</h1>
             </div>
+            
+            <div class="alert alert-warning alert-dismissible fade" role="alert" id="bsalert">
+                La nueva frecuencia es de<strong>{{freq}}</strong> segundos
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
             <div> 
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        <ul class=flashes>
-                        {% for category, message in messages %}
-                        <li class="{{ category }}">{{ message }}</li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}
-                <h5><label class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">Frecuencia de muestreo actual: <span id="frec-actual">{{freq}}</span></label></h5>
+                <h5><label class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">Frecuencia de refresco actual [seg]: {{freq}}</label></h5>
             </div>
             <form class="form" action="/config" method="GET">            
                 <div class="row"> 
                     <h5><label class="col">Ingrese la frecuencia deseada:</label></h5>
-                    <input type="text" name="frec" class="form-control col" id="frec" placeholder="valores desde 1">
-                    <button type="submit" class="btn btn-primary col-2" style="margin-left:9px">Guardar</button>
+                    <input type="number" name="frec" class="form-control col" id="frec" value="" placeholder="valores desde 1 hasta 60" min="1" max="60" oninput="checkValue(this.value)">
+                    <button type="submit" class="btn btn-primary col-2" style="margin-left:9px" id="guardar-frec">Guardar</button>
                 </div>
             </form>
         </main>
@@ -78,28 +77,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            /*$.get("/config",  
-                (data) => {
-                    $('#temp_actual').html(data.temp_actual);
-                    $('#hum_actual').html(data.hum_actual);
-                    $('#pres_actual').html(data.pres_actual);
-                    $('#viento_actual').html(data.viento_actual);
-                    $('#temp_promedio').html(data.temp_promedio);
-                    $('#hum_promedio').html(data.hum_promedio);
-                    $('#pres_promedio').html(data.pres_promedio);
-                    $('#viento_promedio').html(data.viento_promedio);
-                    $('#frec-muestreo').html(data);
-                    console.log(data);
-                })
-                .fail( () => {
-                    alert('Upa, algo salio mal al obtener las muestras!');
-                }); */
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-            });
-        });
-    </script>
+    <script src="/static/js/index.js"></script>
 </body>
 </html>
