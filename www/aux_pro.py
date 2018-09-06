@@ -15,7 +15,7 @@ class Process(object):
 
     def start_process(self):
         if self.process == None:
-            cmd = "python process.py"
+            cmd = "python process.py productor_de_muestras"
             self.process = subprocess.Popen(cmd.split(), preexec_fn=os.setsid)
             return self.process.pid
         return None
@@ -27,3 +27,6 @@ class Process(object):
         if self.process != None:
             os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
             self.process = None
+        
+    def is_running(self):
+        return self.process != None

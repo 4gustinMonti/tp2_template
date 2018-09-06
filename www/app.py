@@ -2,69 +2,86 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import jsonify
+from flask import flash
+from aux_pro import Process
+from database import Database
+import os
 
 app = Flask(__name__)
- 
-@app.route('/config')
+db = Database()
+pro = Process()
+
+@app.route('/config', methods = ['GET'])
 def leo_config():
-    f= request.args.get('frec')
-    if not f:
-        return 15
-    else:
-        return render_template('config.html',frec = f)
+    frecuencia = request.args["frec"]
+    return render_template('config.html', freq=frecuencia)
+    
 @app.route('/config', methods = [ 'POST'])
 def escribo_config():
-    f= request.args.get('frec')
-    if not f:
-        return render_template('index.html',frec=15)
-    else:
-        return render_template('index.html',frec = f)
+    frecuencia = request.form["frec"]  # access the data inside 
+    
+    flash(frecuencia, category = 'message')
+    return render_template('config.html', freq=frecuencia)
 
-@app.route('/', methods = ['POST', 'GET']) # Se requiere GET para poder cargar la pagina por primera vez
-def index():
-    frecuencia = action_form()
-    temp,hum,pa,viento = leer_datos()
-    promedioTemp = calcular_promedio10(temp)
-    promedioHum = calcular_promedio10(hum)
-    promedioPa = calcular_promedio10(pa)
-    promedioVient =  calcular_promedio10(viento)
-    if temp:
-        return render_template('index.html',frec = frecuencia,promTemp=promedioTemp,promHum=promedioHum,promPa=promedioPa,
-            promV=promedioVient,ultTemp=temp[len(temp)-1] ,ultHum=hum[len(hum)-1] ,ultPa=pa[len(pa)-1] ,ultV=viento[len(viento)-1])
+@app.route('/', methods = ['GET'])
+def start_sampling():
+    # If there is a process running, return to index()
+    if not pro.is_running():
+        pro.start_process()
+    return render_template('index.html')
 
-def action_form():
-    frecuencia = request.args.get('frec')
-    if not frecuencia:
-        return 15
-    else:
-        return frecuencia
+@app.route('/home', methods = ['GET'])
+def start_sampling_query():
+    # If there is a process running, return to index()
+    if not pro.is_running():
+        pro.start_process()
+    frecuencia = request.args["frec"]
+    if frecuencia is None:
+        frecuencia = 2
+    return render_template('index.html', freq=frecuencia)
+@app.route('/samples', methods = ['GET'])
+def get_samples():
+    #traigo las 10 ultimas muestras de cada sensor
+    ten_samples = db.get_samples()
+    temp_actual = 0
+    temp_promedio = 0.0
+    hum_actual = 0
+    hum_promedio = 0.0
+    pres_actual = 0
+    pres_promedio = 0.0
+    viento_actual = 0
+    viento_promedio = 0.0
+    #muestra actual de cada sensor
+    temp_actual = ten_samples[-1].temperature
+    hum_actual = ten_samples[-1].humidity
+    pres_actual = ten_samples[-1].pressure
+    viento_actual = ten_samples[-1].windspeed
+    #calculo el promedio de esas 10 muestras
+    for sample in ten_samples:
+        temp_promedio += sample.temperature
+        hum_promedio += sample.humidity
+        pres_promedio += sample.pressure
+        viento_promedio += sample.windspeed
+    temp_promedio /= 10
+    hum_promedio /= 10
+    pres_promedio /= 10
+    viento_promedio /= 10
+    result = {
+        'temp_actual' : temp_actual, 'hum_actual' : hum_actual, 'pres_actual' : pres_actual, 'viento_actual' : viento_actual,
+        'temp_promedio' : temp_promedio, 'hum_promedio' : hum_promedio, 'pres_promedio' : pres_promedio, 'viento_promedio' : viento_promedio
+    }
+    return jsonify(result)
 
-def leer_datos():
-    # lee los datos del archivo de texto
-    temp = []
-    hum = []
-    pa = []
-    viento = []
-    with open("datos.txt", "r") as file:
-        lineas = file.readlines()
-        for l in lineas:
-            datos = l.split("/")
-            temp.append(datos[0]) 
-            hum.append(datos[1])
-            pa.append(datos[2])
-            viento.append(datos[3][:-1]) #el -1 elimina el /n
-    return temp,hum,pa,viento
- 
-def calcular_promedio10(lista):
-    if len(lista) >= 10:
-        suma = 0
-        for i  in range(len(lista)):
-            if i >= len(lista)-10:
-                suma = suma + float(lista[i])
-        return suma / 10
-    else:
-        return "XXX" #No hay sufiente valores para obtener el promedio
+@app.route('/shut-down', methods = ['GET'])
+def shut_down():
+    data = pro.stop_process()
+    result_code= {'status': data}
+    return jsonify(result_code)
 
 if __name__ == "__main__":
+    app.debug = True
     app.run(host='0.0.0.0', port=8888)
 
+# set the secret key. keep this really secret:
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

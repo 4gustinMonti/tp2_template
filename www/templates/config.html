@@ -32,11 +32,11 @@
 
             <ul class="list-unstyled components">
                 <li class="active">
-                    <a href="/?frec={{frec}}" aria-expanded="false">
+                    <a href="/home" aria-expanded="false" id="side-home">
                         <i class="fas fa-home"></i>
                         <span class="home-button">Home</span>
                     </a>
-                    <a href="/config?frec={{frec}}">
+                    <a href="/config" id="side-config">
                         <span style="margin-right: 5px;">
                             <i class="fas fa-cogs"></i>
                             <span class="config-button">Config</span>
@@ -51,14 +51,16 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Configurar la estación</h1>
             </div>
+            
+            
             <div> 
-                <h5><label class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">Frecuencia de muestreo actual:  {{frec}}</label></h5>
+                <h5><label class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">Frecuencia de refresco actual [seg]: {{freq}}</label></h5>
             </div>
             <form class="form" action="/config" method="GET">            
                 <div class="row"> 
                     <h5><label class="col">Ingrese la frecuencia deseada:</label></h5>
-                    <input type="text" name="frec" class="form-control col" id="frec" placeholder="valores desde 1">
-                    <button type="submit" class="btn btn-primary col-2" style="margin-left:9px">Guardar</button>
+                    <input type="number" name="frec" class="form-control col" id="frec" value="" placeholder="valores desde 1 hasta 60" min="1" max="60" oninput="checkValue(this.value)">
+                    <button type="submit" class="btn btn-primary col-2" style="margin-left:9px" id="guardar-frec">Guardar</button>
                 </div>
             </form>
         </main>
@@ -68,12 +70,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-            });
-        });
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/static/js/index.js"></script>
 </body>
 </html>
