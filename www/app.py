@@ -2,7 +2,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-from flask import jsonify
+from flask import jsonify, flash
 from process import Process
 from database import Database
 import os
@@ -54,14 +54,14 @@ def get_samples():
     hum_promedio /= 10
     pres_promedio /= 10
     viento_promedio /= 10
-    return jsonify (temp_actual = temp_actual,
-                    hum_actual = hum_actual,
-                    pres_actual = pres_actual,
-                    viento_actual = viento_actual,
-                    temp_promedio = temp_promedio,
-                    hum_promedio = hum_promedio,
-                    pres_promedio = pres_promedio,
-                    viento_promedio = viento_promedio)
+    flash('Obteniendo muestras')
+    result = {
+        'temp_actual' : temp_actual, 'hum_actual' : hum_actual, 'pres_actual' : pres_actual, 'viento_actual' : viento_actual,
+        'temp_promedio' : temp_promedio, 'hum_promedio' : hum_promedio, 'pres_promedio' : pres_promedio, 'viento_promedio' : viento_promedio
+    }
+    return jsonify(result)
+    
+
 
 @app.route('/shut-down', methods = ['GET'])
 def shut_down():
@@ -69,5 +69,8 @@ def shut_down():
     return jsonify({"status": data})
 
 if __name__ == "__main__":
+    app.debug = True
     app.run(host='0.0.0.0', port=8888)
 
+# set the secret key. keep this really secret:
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

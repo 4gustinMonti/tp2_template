@@ -31,7 +31,7 @@ class Samples(Base):
         self.windspeed = windspeed
 
     def __repr__(self):
-        return '<Samples %r %r %r %r >' % (self.temperature, self.humidity, self.pressure, self.windspeed)
+        return '<Samples {}>'.format(self.body)
 
 
 #class Frequency(Base):
