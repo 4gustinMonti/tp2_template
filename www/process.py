@@ -1,41 +1,37 @@
-import os
 import signal
-import subprocess
 from database import Database
-from random import randint
-import time
 
+import random
+import time
+import sys
 
 db = Database()
 
-class Process(object):
-    # Se generaran valores random de Temperatura, Humedad, PA, Vel Viento cada frecuenciaGeneracion [segundos].
-    process = None
-    frecuenciaGeneracion = 1
-    
-    def start_process(self):
-        #la primera vez que levanta la pagina cargo la DB con 100 muestras de cada sensor
-        for x in range(0, 10):
-            temp = randint (0,50)
-            hum = randint (0,100) # porcentaje
-            pa = randint(0,200) # hPa
-            viento = randint (0,200) # km/h
-            db.new_samples(temp,hum,pa,viento)
+class GracefulKiller:
+    kill_now = False
+    def __init__(self):
+        signal.signal(signal.SIGINT, self.exit_gracefully)
+        signal.signal(signal.SIGTERM, self.exit_gracefully)
 
-    def create_samples(self):
-        while True:
-            time.sleep(self.frecuenciaGeneracion)
-            temp = randint (0,50)
-            hum = randint (0,100) # porcentaje
-            pa = randint(0,200) # hPa
-            viento = randint (0,200) # km/h
-            db.new_samples(temp,hum,pa,viento)
+    def exit_gracefully(self, signum, frame):
+        self.kill_now = True
 
-    def stop_process(self):
-        if self.process != None:
-            os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
-            self.process = None
-        return 200
-        
-    def is_running(self):
-        return self.process != None
+# Se generaran valores random de Temperatura, Humedad, PA, Vel Viento cada frecuenciaGeneracion [segundos].
+
+frecuenciaGeneracion = 1
+
+#desde aca es lo nuevo
+def main():
+    killer = GracefulKiller()
+    while(True):
+        temp = random.randint (0,50)
+        hum = random.randint (0,100) # porcentaje
+        pa = random.randint(0,200) # hPa
+        viento = random.randint (0,200) # km/h
+        db.new_samples(temp,hum,pa,viento)
+        time.sleep(frecuenciaGeneracion)
+        if killer.kill_now:
+            break
+
+if __name__ == '__main__':
+    main()
