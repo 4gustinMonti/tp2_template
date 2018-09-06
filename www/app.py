@@ -2,7 +2,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-from flask import jsonify, flash
+from flask import jsonify
 from process import Process
 from database import Database
 import os
@@ -54,7 +54,6 @@ def get_samples():
     hum_promedio /= 10
     pres_promedio /= 10
     viento_promedio /= 10
-    flash('Obteniendo muestras')
     result = {
         'temp_actual' : temp_actual, 'hum_actual' : hum_actual, 'pres_actual' : pres_actual, 'viento_actual' : viento_actual,
         'temp_promedio' : temp_promedio, 'hum_promedio' : hum_promedio, 'pres_promedio' : pres_promedio, 'viento_promedio' : viento_promedio
@@ -66,7 +65,8 @@ def get_samples():
 @app.route('/shut-down', methods = ['GET'])
 def shut_down():
     data = pro.stop_process()
-    return jsonify({"status": data})
+    result_code= {'status': data}
+    return jsonify(result_code)
 
 if __name__ == "__main__":
     app.debug = True

@@ -1,5 +1,5 @@
 $(document).ready( () => {
-    console.log("Doc ready!");
+    console.log("Iniciando Estación!");
     start_sampling();
     $('#sidebarCollapse').on('click', () => {
         $('#sidebar').toggleClass('active');
@@ -34,10 +34,10 @@ function get_samples() {
 }
 
 $(window).on("unload", (e) => {
-    $.get('/shut-down',  (data) => { 
-        console.log(data);
+    $.get('/shut-down',  (result_code) => { 
+        console.log("resultado de la finalizacion satisfactoria!", result_code);
         })
-        .fail( (failed) => {
-            alert('Upa, algo salio mal al intentar apagar la estacion!');
+        .fail( (result_code) => {
+            alert('Upa, algo salio mal al intentar apagar la estacion!', result_code);
         });
   })
