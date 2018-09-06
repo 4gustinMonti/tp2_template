@@ -49,10 +49,11 @@ class Database(object):
         """Get samples of temperature, humidity, pressure and windspeed from the database.
     
         Returns:
-            temp, hum, pres , viento objects with 'actual' and 'promedio' attributes
+            10 objects with temperature, humidity, pressure and windspeed attributes
         """
         session = self.get_session()
         #obtengo las ultimas 10 muestras
         ten_samples = session.query(Samples).order_by(desc(Samples.id)).limit(10)
         session.close()
         return ten_samples
+        

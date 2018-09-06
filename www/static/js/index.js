@@ -4,14 +4,15 @@ $(document).ready( () => {
     $('#sidebarCollapse').on('click', () => {
         $('#sidebar').toggleClass('active');
     });
-    
 });
 
 
 var timer;
 
-function start_sampling() {
-    timer = setInterval(get_samples, 5000);
+function start_sampling(freq) {
+    if (typeof freq == 'undefined')
+        freq = 5
+    timer = setInterval(get_samples, freq*1000);
 }
 
 function get_samples() {
@@ -33,11 +34,11 @@ function get_samples() {
         });
 }
 
-$(window).on("unload", (e) => {
+/* $(window).on("unload", (e) => {
     $.get('/shut-down',  (result_code) => { 
         console.log("resultado de la finalizacion satisfactoria!", result_code);
         })
         .fail( (result_code) => {
             alert('Upa, algo salio mal al intentar apagar la estacion!', result_code);
         });
-  })
+}) */

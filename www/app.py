@@ -3,6 +3,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import jsonify
+from flask import flash
 from aux_pro import Process
 from database import Database
 import os
@@ -11,18 +12,19 @@ app = Flask(__name__)
 db = Database()
 pro = Process()
 
-@app.route('/config')
+@app.route('/config', methods = ['GET'])
 def leo_config():
+    return render_template('config.html',freq = f)
     
-    return render_template('config.html')
 @app.route('/config', methods = [ 'POST'])
 def escribo_config():
-    data = 10
-    return render_template('index.html',data = data)
+    data = request.form
+    flash(data, category = 'message')
+    return render_template('config.html',freq = data.freq)
 
 @app.route('/', methods = ['GET'])
 def start_sampling():
-     # If there is a process running, return to index()
+    # If there is a process running, return to index()
     if not pro.is_running():
         pro.start_process()
     return render_template('index.html')
@@ -59,8 +61,6 @@ def get_samples():
         'temp_promedio' : temp_promedio, 'hum_promedio' : hum_promedio, 'pres_promedio' : pres_promedio, 'viento_promedio' : viento_promedio
     }
     return jsonify(result)
-    
-
 
 @app.route('/shut-down', methods = ['GET'])
 def shut_down():

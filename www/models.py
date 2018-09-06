@@ -32,10 +32,3 @@ class Samples(Base):
 
     def __repr__(self):
         return '<Samples {}>'.format(self.body)
-
-
-#class Frequency(Base):
-#    __tablename__ = 'frequency'
-#    id=Column(Integer, primary_key=True)
-#    last_freq=Column('last_freq', Integer)
-

@@ -17,10 +17,8 @@ class GracefulKiller:
         self.kill_now = True
 
 # Se generaran valores random de Temperatura, Humedad, PA, Vel Viento cada frecuenciaGeneracion [segundos].
-
 frecuenciaGeneracion = 1
 
-#desde aca es lo nuevo
 def main():
     killer = GracefulKiller()
     while(True):
